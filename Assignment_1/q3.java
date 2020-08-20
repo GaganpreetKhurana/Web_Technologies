@@ -1,5 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -82,15 +80,7 @@ public class q3 {
     }
 
     public static void main(String args[]) {
-        File testFile = new File("test.txt");
-        Scanner input;
-        // Scanner input = new Scanner(System.in);
-        try {
-            input = new Scanner(testFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            input = new Scanner(System.in);
-        }
+        Scanner input = new Scanner(System.in);
         System.out.print("Enter number of Vertices: ");
         int vertices = input.nextInt();
         System.out.print("Enter number of Edges: ");

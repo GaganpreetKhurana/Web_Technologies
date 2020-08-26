@@ -29,8 +29,12 @@ public class q5_1 {
         return temp;
     }
 
-    public static void main(String[] args, boolean[] setA, boolean[] setB) {
+    public static double[] main(String[] args, boolean[] setA, boolean[] setB) {
+
+        double[] timeElapsedArray = new double[4];
+
         System.out.println("\nUsing Array: ");
+
         System.out.print("\nUnion: ");
         long startTime = System.nanoTime();
         boolean[] output = union(setA, setB);
@@ -41,6 +45,7 @@ public class q5_1 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[0] = elapsedTime;
 
         System.out.print("\nIntersection: ");
         startTime = System.nanoTime();
@@ -52,6 +57,7 @@ public class q5_1 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[1] = elapsedTime;
 
         System.out.print("\nComplement(A): ");
         startTime = System.nanoTime();
@@ -63,6 +69,7 @@ public class q5_1 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[2] = elapsedTime;
 
         System.out.print("\nComplement(B): ");
         startTime = System.nanoTime();
@@ -74,7 +81,9 @@ public class q5_1 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[3] = elapsedTime;
 
+        return timeElapsedArray;
     }
 
 }

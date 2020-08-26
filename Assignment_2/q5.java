@@ -3,8 +3,20 @@ import java.util.Scanner;
 
 public class q5 {
 
+    private static String better(double a, double b) {
+        if (a < b) {
+            return "Array";
+        }
+        if (b < a) {
+            return "HashSet";
+        }
+        return "Equal";
+    }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+
+        // Input Set A
         System.out.print("Enter size of Set A: ");
         int n = input.nextInt();
         input.nextLine();
@@ -21,6 +33,8 @@ public class q5 {
             setAH.add(temp);
         }
         input.nextLine();
+
+        // Input Set B
         System.out.print("Enter size of Set B: ");
         int m = input.nextInt();
         input.nextLine();
@@ -37,7 +51,18 @@ public class q5 {
             setBH.add(temp);
         }
         input.close();
-        q5_1.main(args,setA,setB);
-        q5_2.main(args,setAH,setBH);
+
+        // Part 1 (Array)
+        double[] timeElapsedArray = q5_1.main(args, setA, setB);
+
+        // Part 2 (HashSet)
+        double[] timeElapsedHashSet = q5_2.main(args, setAH, setBH);
+
+        // Part 3 (Comparisons) in milliseconds
+        System.out.println("\nComparisons:");
+        String[] operations = { "Union: ", "Intersection: ", "Complement(A): ", "Complement(B): " };
+        for (int i = 0; i < 4; i++) {
+            System.out.println(operations[i] + better(timeElapsedArray[i], timeElapsedHashSet[i]));
+        }
     }
 }

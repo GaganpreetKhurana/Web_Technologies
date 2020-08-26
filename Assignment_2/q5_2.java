@@ -31,8 +31,12 @@ public class q5_2 {
         return temp;
     }
 
-    public static void main(String[] args,HashSet<Integer> setA,HashSet<Integer> setB) {
+    public static double[] main(String[] args, HashSet<Integer> setA, HashSet<Integer> setB) {
+        
+        double[] timeElapsedArray = new double[4];
+
         System.out.println("\nUsing HashSet: ");
+
         System.out.print("\nUnion: ");
         long startTime = System.nanoTime();
         HashSet<Integer> output = union(setA, setB);
@@ -43,6 +47,7 @@ public class q5_2 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[0] = elapsedTime;
 
         System.out.print("\nIntersection: ");
         startTime = System.nanoTime();
@@ -54,6 +59,7 @@ public class q5_2 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[1] = elapsedTime;
 
         System.out.print("\nComplement(A): ");
         startTime = System.nanoTime();
@@ -65,6 +71,7 @@ public class q5_2 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[2] = elapsedTime;
 
         System.out.print("\nComplement(B): ");
         startTime = System.nanoTime();
@@ -76,6 +83,9 @@ public class q5_2 {
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
+        timeElapsedArray[3] = elapsedTime;
+
+        return timeElapsedArray;
     }
 
 }

@@ -1,42 +1,44 @@
-public class q5_1 {
-    private static boolean[] union(boolean[] A, boolean[] B) {
-        boolean[] temp = new boolean[11];
+import java.util.HashSet;
+
+public class q5_2 {
+    private static HashSet<Integer> union(HashSet<Integer> A, HashSet<Integer> B) {
+        HashSet<Integer> temp = new HashSet<Integer>();
         for (int i = 0; i < 11; i++) {
-            if (A[i] || B[i]) {
-                temp[i] = true;
+            if (A.contains(i) || B.contains(i)) {
+                temp.add(i);
             }
         }
         return temp;
     }
 
-    private static boolean[] intersection(boolean[] A, boolean[] B) {
-        boolean[] temp = new boolean[11];
+    private static HashSet<Integer> intersection(HashSet<Integer> A, HashSet<Integer> B) {
+        HashSet<Integer> temp = new HashSet<Integer>();
         for (int i = 0; i < 11; i++) {
-            if (A[i] && B[i]) {
-                temp[i] = true;
+            if (A.contains(i) && B.contains(i)) {
+                temp.add(i);
             }
         }
         return temp;
     }
 
-    private static boolean[] complement(boolean[] A) {
-        boolean[] temp = new boolean[11];
+    private static HashSet<Integer> complement(HashSet<Integer> A) {
+        HashSet<Integer> temp = new HashSet<Integer>();
         for (int i = 0; i < 11; i++) {
-            if (A[i] == false) {
-                temp[i] = true;
+            if (!A.contains(i)) {
+                temp.add(i);
             }
         }
         return temp;
     }
 
-    public static void main(String[] args, boolean[] setA, boolean[] setB) {
-        System.out.println("\nUsing Array: ");
+    public static void main(String[] args,HashSet<Integer> setA,HashSet<Integer> setB) {
+        System.out.println("\nUsing HashSet: ");
         System.out.print("\nUnion: ");
         long startTime = System.nanoTime();
-        boolean[] output = union(setA, setB);
+        HashSet<Integer> output = union(setA, setB);
         double elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
         for (int i = 0; i < 11; i++) {
-            if (output[i]) {
+            if (output.contains(i)) {
                 System.out.print(i + " ");
             }
         }
@@ -47,7 +49,7 @@ public class q5_1 {
         output = intersection(setA, setB);
         elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
         for (int i = 0; i < 11; i++) {
-            if (output[i]) {
+            if (output.contains(i)) {
                 System.out.print(i + " ");
             }
         }
@@ -58,7 +60,7 @@ public class q5_1 {
         output = complement(setA);
         elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
         for (int i = 0; i < 11; i++) {
-            if (output[i]) {
+            if (output.contains(i)) {
                 System.out.print(i + " ");
             }
         }
@@ -69,12 +71,11 @@ public class q5_1 {
         output = complement(setB);
         elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
         for (int i = 0; i < 11; i++) {
-            if (output[i]) {
+            if (output.contains(i)) {
                 System.out.print(i + " ");
             }
         }
         System.out.println("\nTime Elapsed: " + elapsedTime);
-
     }
 
 }

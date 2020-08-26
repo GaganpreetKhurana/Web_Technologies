@@ -1,28 +1,34 @@
 import java.util.Scanner;
 
 public class q5_1 {
-    private static void union(boolean[] A, boolean[] B) {
+    private static boolean[] union(boolean[] A, boolean[] B) {
+        boolean[] temp = new boolean[11];
         for (int i = 0; i < 11; i++) {
             if (A[i] || B[i]) {
-                System.out.print(i + " ");
+                temp[i] = true;
             }
         }
+        return temp;
     }
 
-    private static void intersection(boolean[] A, boolean[] B) {
+    private static boolean[] intersection(boolean[] A, boolean[] B) {
+        boolean[] temp = new boolean[11];
         for (int i = 0; i < 11; i++) {
             if (A[i] && B[i]) {
-                System.out.print(i + " ");
+                temp[i] = true;
             }
         }
+        return temp;
     }
 
-    private static void complement(boolean[] A) {
+    private static boolean[] complement(boolean[] A) {
+        boolean[] temp = new boolean[11];
         for (int i = 0; i < 11; i++) {
             if (A[i] == false) {
-                System.out.print(i + " ");
+                temp[i] = true;
             }
         }
+        return temp;
     }
 
     public static void main(String[] args) {
@@ -55,13 +61,49 @@ public class q5_1 {
             setB[temp] = true;
         }
         System.out.print("\nUnion: ");
-        union(setA, setB);
+        long startTime = System.nanoTime();
+        boolean[] output = union(setA, setB);
+        double elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
+        for (int i = 0; i < 11; i++) {
+            if (output[i]) {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println("\nTime Elapsed: " + elapsedTime);
+
         System.out.print("\nIntersection: ");
-        intersection(setA, setB);
+        startTime = System.nanoTime();
+        output = intersection(setA, setB);
+        elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
+        for (int i = 0; i < 11; i++) {
+            if (output[i]) {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println("\nTime Elapsed: " + elapsedTime);
+
         System.out.print("\nComplement(A): ");
-        complement(setA);
+        startTime = System.nanoTime();
+        output = complement(setA);
+        elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
+        for (int i = 0; i < 11; i++) {
+            if (output[i]) {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println("\nTime Elapsed: " + elapsedTime);
+
         System.out.print("\nComplement(B): ");
-        complement(setB);
+        startTime = System.nanoTime();
+        output = complement(setB);
+        elapsedTime = (System.nanoTime() - startTime) / 1000000.0;
+        for (int i = 0; i < 11; i++) {
+            if (output[i]) {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println("\nTime Elapsed: " + elapsedTime);
+
         input.close();
     }
 

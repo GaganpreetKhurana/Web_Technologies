@@ -1,22 +1,21 @@
-import java.util.Scanner;
-
 public class q4 {
-    public static Long smallestNumber(Long n) {
+    public static int smallestNumber() {
         Long sum = (long) 0;
-        for (Long i = (long) 1; i <= n; i++) {
+        int smallest = 1;
+        int i = 1;
+        while (i * i > 0) {
             sum += i;
-            if (sum == (i * i)) {
-                return i;
+            if (sum == i * i) {
+                if (smallest == 0 || i < smallest) {
+                    smallest = i;
+                }
             }
+            i++;
         }
-        return Long.MIN_VALUE;
+        return smallest;
     }
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Enter N: ");
-        Long n = input.nextLong();
-        input.close();
-        System.out.println("Smallest Number: " + smallestNumber(n));
+        System.out.println("Smallest Number: " + smallestNumber());
     }
 }

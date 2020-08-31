@@ -4,20 +4,14 @@ import java.util.Scanner;
 
 public class q3 {
     public static void sortIteration(String[] arr, int position) {
-        Queue<String>[] buckets = new Queue[54];
-        for (int i = 0; i < 54; i++) {
+        Queue<String>[] buckets = new Queue[256];
+        for (int i = 0; i < 256; i++) {
             buckets[i] = new LinkedList<String>();
         }
         for (String i : arr) {
-            int index;
-            if (position >= i.length()) {
-                index = 0;
-            } else if (i.charAt(position) == ' ') {
-                index = 1;
-            } else if (i.charAt(position) >= 'A' && i.charAt(position) <= 'Z') {
-                index = i.charAt(position) - 'A' + 2;
-            } else {
-                index = i.charAt(position) - 'a' + 28;
+            int index = 0;
+            if (position < i.length()) {
+                index = i.charAt(position) - 0;
             }
             buckets[index].add(i);
         }
@@ -43,7 +37,6 @@ public class q3 {
     }
 
     public static void main(String[] args) {
-        System.out.println("\nAlphabet Order: \"Empty String\" \"Space\" ABCD.....XYZ abcd.....xyz\n");
         Scanner input = new Scanner(System.in);
         System.out.print("Enter number of String: ");
         int n = input.nextInt();

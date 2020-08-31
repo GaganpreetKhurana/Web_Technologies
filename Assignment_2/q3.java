@@ -1,5 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -41,23 +39,12 @@ public class q3 {
         }
         for (int i = maxStringLength; i > -1; i--) {
             sortIteration(arr, i);
-            // System.out.print("Output " + i + ": ");
-            // for (String j : arr) {
-            //     System.out.print('\"' + j + '\"' + " ");
-            // }
-            // System.out.println();
         }
     }
 
     public static void main(String[] args) {
-        File test = new File("test.txt");
-        Scanner input;
-        try {
-            input = new Scanner(test);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            input = new Scanner(System.in);
-        }
+        System.out.println("\nAlphabet Order: \"Empty String\" \"Space\" ABCD.....XYZ abcd.....xyz\n");
+        Scanner input = new Scanner(System.in);
         System.out.print("Enter number of String: ");
         int n = input.nextInt();
         input.nextLine();

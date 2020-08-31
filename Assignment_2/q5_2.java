@@ -32,7 +32,7 @@ public class q5_2 {
     }
 
     public static double[] main(String[] args, HashSet<Integer> setA, HashSet<Integer> setB) {
-        
+
         double[] timeElapsedArray = new double[4];
 
         System.out.println("\nUsing HashSet: ");
@@ -46,7 +46,7 @@ public class q5_2 {
                 System.out.print(i + " ");
             }
         }
-        System.out.println("\nTime Elapsed: " + elapsedTime);
+        System.out.println("\nTime Elapsed: " + elapsedTime + " ms");
         timeElapsedArray[0] = elapsedTime;
 
         System.out.print("\nIntersection: ");
@@ -58,7 +58,7 @@ public class q5_2 {
                 System.out.print(i + " ");
             }
         }
-        System.out.println("\nTime Elapsed: " + elapsedTime);
+        System.out.println("\nTime Elapsed: " + elapsedTime + " ms");
         timeElapsedArray[1] = elapsedTime;
 
         System.out.print("\nComplement(A): ");
@@ -70,7 +70,7 @@ public class q5_2 {
                 System.out.print(i + " ");
             }
         }
-        System.out.println("\nTime Elapsed: " + elapsedTime);
+        System.out.println("\nTime Elapsed: " + elapsedTime + " ms");
         timeElapsedArray[2] = elapsedTime;
 
         System.out.print("\nComplement(B): ");
@@ -82,7 +82,7 @@ public class q5_2 {
                 System.out.print(i + " ");
             }
         }
-        System.out.println("\nTime Elapsed: " + elapsedTime);
+        System.out.println("\nTime Elapsed: " + elapsedTime + " ms");
         timeElapsedArray[3] = elapsedTime;
 
         return timeElapsedArray;

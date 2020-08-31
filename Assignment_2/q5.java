@@ -59,7 +59,7 @@ public class q5 {
         double[] timeElapsedHashSet = q5_2.main(args, setAH, setBH);
 
         // Part 3 (Comparisons) in milliseconds
-        System.out.println("\nComparisons:");
+        System.out.println("\nComparisons(Faster):");
         String[] operations = { "Union: ", "Intersection: ", "Complement(A): ", "Complement(B): " };
         for (int i = 0; i < 4; i++) {
             System.out.println(operations[i] + better(timeElapsedArray[i], timeElapsedHashSet[i]));

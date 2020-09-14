@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q2 {
+public class q2_2 {
     private static void countingSort(int[] arr) {
         int[] count = new int[21];
         for (int i : arr) {

@@ -1,7 +1,7 @@
 import java.util.HashSet;
 import java.util.Scanner;
 
-public class q5 {
+public class q2_5 {
 
     private static String better(double a, double b) {
         if (a < b) {

@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class q1 {
+public class q2_1 {
     private static String lexCompare(String a, String b) {
         int i = 0;
         int l = a.length() < b.length() ? a.length() : b.length(); // minimum Length

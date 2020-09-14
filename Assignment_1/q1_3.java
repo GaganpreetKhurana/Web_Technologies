@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class q3 {
+public class q1_3 {
     public static class Edge {
         int source;
         int destination;
@@ -79,7 +79,7 @@ public class q3 {
         v.remove(v.size() - 1);
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter number of Vertices: ");
         int vertices = input.nextInt();
@@ -89,7 +89,7 @@ public class q3 {
         for (int i = 0; i < edges; i++) {
             System.out.print("Enter Edge: ");
             int source = input.nextInt(), destination = input.nextInt(), weight = input.nextInt();
-            edgeList[i] = new q3.Edge(source, destination, weight);
+            edgeList[i] = new q1_3.Edge(source, destination, weight);
         }
         System.out.println("Enter Source and Destination");
         int source = input.nextInt(), destination = input.nextInt();

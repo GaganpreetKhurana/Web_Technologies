@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-public class q3 {
+public class q2_3 {
     public static void sortIteration(String[] arr, int position) {
         Queue<String>[] buckets = new Queue[256];
         for (int i = 0; i < 256; i++) {

@@ -1,4 +1,4 @@
-public class q4 {
+public class q2_4 {
     public static int smallestNumber() {
         Long sum = (long) 0;
         int smallest = 1;

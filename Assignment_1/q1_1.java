@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class q1 {
+public class q1_1 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter String: ");

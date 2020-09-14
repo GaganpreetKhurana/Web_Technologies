@@ -27,3 +27,8 @@ hs_err_pid*
 
 #vscode
 .vscode
+
+#IntelliJ folders/files
+#.idea
+out
+#Web_Technologies.iml

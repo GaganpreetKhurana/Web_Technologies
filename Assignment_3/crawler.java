@@ -7,16 +7,14 @@ import org.jsoup.select.Elements;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class crawler {
-
     private static final HashSet<String> visitedLinks = new HashSet<>();
-    private static final Queue<String> linkQueue = new LinkedList<>();
+    private static final HashMap<Integer, List<String>> table = new HashMap<>();
+    private static final Queue<Link> linkQueue = new LinkedList<>();
+    private static int maxDepth;
     private static FileWriter textFile;
     private static FileWriter linksFile;
     private static FileWriter nonHtmlLinksFile;
@@ -41,42 +39,22 @@ public class crawler {
         for (Element link : links) {
             String newURL = link.attr("abs:href");
             if (!newURL.contains("#") && !visitedLinks.contains(newURL) && newURL.contains(urlContains)) {
-
-                visitedLinks.add(newURL);
-//                try {
-//                    Jsoup.connect(newURL).get();
-//                } catch (UnsupportedMimeTypeException type) {
-//                    if (newURL.contains("faculty")) {
-//                        try {
-//                            nonHtmlLinksFile.write(link.text() + "," + newURL + "\n");
-//                        } catch (IOException e) {
-//                            System.out.println("Error writing to nonHtmlLinks.csv!");
-//                        }
-//                    }
-//                    return;
-//                } catch (IOException ignored) {
-//
-//                }
-                linkQueue.add(newURL);
-                if (newURL.contains("faculty")) {
-                    try {
-                        String row = link.text() + "," + newURL + "\n";
-                        linksFile.write(row);
-                    } catch (IOException e) {
-                        System.out.println("Error writing to links.csv!");
-                    }
-                }
+                Link temp = new Link();
+                temp.url = newURL;
+                temp.text = link.text();
+                linkQueue.add(temp);
             }
-
         }
     }
 
     public static void extractText(final Document page) {
+
         Elements paragraphTags = page.getElementsByTag("p");
         for (Element paragraph : paragraphTags) {
             if (paragraph.text().length() > 0) {
                 try {
-                    String row = "<p>," + paragraph.text() + "\n";
+//                    System.out.println(paragraph.html());
+                    String row = "<p>,\"" + paragraph.text() + "\"\n";
                     textFile.write(row);
                 } catch (IOException e) {
                     System.out.println("Error writing to text.csv!");
@@ -85,18 +63,38 @@ public class crawler {
         }
     }
 
-    public static void crawl(String url) {
-        System.out.println(url);
+    public static void crawl(String url, String text) {
+        if (visitedLinks.contains(url)) {
+            return;
+        }
+        System.out.println("Parsing: " + url + " Depth: " + depth);
+        visitedLinks.add(url);
+        if (!table.containsKey(depth)) {
+            List<String> temp = new ArrayList<>();
+            table.put(depth, temp);
+        }
+        table.get(depth).add(url);
         try {
-            Document page = Jsoup.connect(url).get();
-            if (url.contains("faculty")) {
-                extractText(page);
+            if (depth <= maxDepth) {
+                Document page = Jsoup.connect(url).get();
+                if (url.contains("faculty")) {
+                    extractText(page);
+                }
+                extractLinks(page);
             }
-            extractLinks(page);
+            if (url.contains("faculty")) {
+                try {
+                    String row = text + "," + url + "\n";
+                    linksFile.write(row);
+                } catch (IOException e) {
+                    System.out.println("Error writing to links.csv!");
+                }
+            }
+
         } catch (UnsupportedMimeTypeException type) {
             if (url.contains("faculty")) {
                 try {
-                    nonHtmlLinksFile.write("----," + url + "\n");
+                    nonHtmlLinksFile.write(text + "," + url + "\n");
                 } catch (IOException e) {
                     System.out.println("Error writing to nonHtmlLinks.csv!");
                 }
@@ -108,58 +106,83 @@ public class crawler {
     }
 
     public static void main(String[] args) {
+
         long startTime = System.nanoTime();
+
         try {
             linksFile = new FileWriter("Assignment_3\\links.csv");
             textFile = new FileWriter("Assignment_3\\text.csv");
             nonHtmlLinksFile = new FileWriter("Assignment_3\\nonHtmlLinks.csv");
+
             String row = "Tag ,Text\n";
             textFile.write(row);
+
             row = "Link Text,URL\n";
             linksFile.write(row);
+
             row = "Link Text,URL\n";
             nonHtmlLinksFile.write(row);
+
         } catch (IOException e) {
             System.out.println("Unable To Create File(s)!");
             System.exit(1);
         }
-        System.out.print("Input URL: ");
-        Scanner input = new Scanner(System.in);
-        String url = "https://pec.ac.in";//input.nextLine();
-        System.out.print("Enter String: ");
-        urlContains = "pec.ac.in";//input.nextLine();
-        input.close();
+        String url = "";
+        try {
+            System.out.print("Input URL: ");
+            Scanner input = new Scanner(System.in);
+            url = "https://pec.ac.in";//input.nextLine();
+            System.out.print("Enter String: ");
+            urlContains = "pec.ac.in";//input.nextLine();
+            System.out.print("Enter MAX Depth(BFS): ");
+            maxDepth = 1;
+//        input.nextInt();
+//        input.nextLine();
+            input.close();
+        } catch (Exception e) {
+            System.out.println("Invalid Input!");
+            System.exit(1);
+        }
+
         if (!isValid(url)) {
             System.out.println("INVALID URL!");
             return;
         }
-        visitedLinks.add(url);
-        linkQueue.add(url);
+        Link temp = new Link();
+        temp.url = url;
+        temp.text = "---ROOT---";
+        linkQueue.add(temp);
         linkQueue.add(null);
-        while (!linkQueue.isEmpty() && depth < 5) {
-            url = linkQueue.remove();
-            if (url == null) {
+        while (!linkQueue.isEmpty()) {
+            temp = linkQueue.remove();
+            if (temp == null) {
                 depth++;
-                if (linkQueue.size() > 1) {
+                if (!linkQueue.isEmpty()) {
                     linkQueue.add(null);
                 }
-                System.out.println("Depth: " + depth);
-                continue;
-
+            } else {
+                crawl(temp.url, temp.text);
             }
-            System.out.print("Parsing: ");
-            crawl(url);
-
         }
+
         try {
+
             textFile.close();
             linksFile.close();
             nonHtmlLinksFile.close();
+
         } catch (IOException e) {
             System.out.println("Unable to close files!");
         }
+
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
         System.out.println("Time Elapsed: " + timeElapsed / 60.0);
+
+    }
+
+    private static class Link {
+        public String url = "";
+        public String text = "";
     }
 }

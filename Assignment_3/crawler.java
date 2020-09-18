@@ -14,7 +14,8 @@ public class crawler {
     private static final HashSet<String> visitedLinks = new HashSet<>();
     private static final HashMap<Integer, List<String>> table = new HashMap<>();
     private static final Queue<Link> linkQueue = new LinkedList<>();
-    private static int maxDepth;
+    private static final List<String> facultyRelatedWordsList = new LinkedList<>();
+    private static int maxDepth = 3;
     private static FileWriter textFile;
     private static FileWriter linksFile;
     private static FileWriter nonHtmlLinksFile;
@@ -34,6 +35,39 @@ public class crawler {
         }
     }
 
+    public static int frequency(String paragraph, String substring) {
+        int count = 0;
+        for (String word :
+                paragraph.split("\\W+")) {
+            if (word.equals(substring)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static boolean facultyRelated(final Document page) {
+        int frequencyOfFacultyRelatedWords = 0;
+        String htmlPageString = page.toString().toLowerCase();
+        for (String word :
+                facultyRelatedWordsList) {
+            frequencyOfFacultyRelatedWords += frequency(htmlPageString, word);
+        }
+        return frequencyOfFacultyRelatedWords > 5;
+
+    }
+
+    public static boolean facultyRelated(String url) {
+        int frequencyOfFacultyRelatedWords = 0;
+        url = url.toLowerCase();
+        for (String word :
+                facultyRelatedWordsList) {
+            frequencyOfFacultyRelatedWords += frequency(url, word);
+        }
+        return frequencyOfFacultyRelatedWords > 0;
+
+    }
+
     public static void extractLinks(final Document page) {
         Elements links = page.getElementsByTag("a");
         for (Element link : links) {
@@ -48,19 +82,22 @@ public class crawler {
     }
 
     public static void extractText(final Document page) {
-
-        Elements paragraphTags = page.getElementsByTag("p");
-        for (Element paragraph : paragraphTags) {
-            if (paragraph.text().length() > 0) {
-                try {
-//                    System.out.println(paragraph.html());
-                    String row = "<p>,\"" + paragraph.text() + "\"\n";
-                    textFile.write(row);
-                } catch (IOException e) {
-                    System.out.println("Error writing to text.csv!");
+        for (String tag :
+                ("p h1 h2 h3 h4 h5 h6 em strong blockquote").split(" ")) {
+            Elements tagElementsList = page.getElementsByTag(tag);
+            for (Element tagElement : tagElementsList) {
+                if (tagElement.text().length() > 0) {
+                    try {
+                        String row = "<" + tag + ">,\"" + tagElement.text() + "\"\r\n";
+                        textFile.write(row);
+                    } catch (IOException e) {
+                        System.out.println("Error writing to text.csv!");
+                    }
                 }
             }
+
         }
+
     }
 
     public static void crawl(String url, String text) {
@@ -77,14 +114,14 @@ public class crawler {
         try {
             if (depth <= maxDepth) {
                 Document page = Jsoup.connect(url).get();
-                if (url.contains("faculty")) {
+                if (facultyRelated(url) || facultyRelated(page)) {
                     extractText(page);
                 }
                 extractLinks(page);
             }
-            if (url.contains("faculty")) {
+            if (facultyRelated(url)) {
                 try {
-                    String row = text + "," + url + "\n";
+                    String row = text + "," + url + "\r\n";
                     linksFile.write(row);
                 } catch (IOException e) {
                     System.out.println("Error writing to links.csv!");
@@ -92,9 +129,9 @@ public class crawler {
             }
 
         } catch (UnsupportedMimeTypeException type) {
-            if (url.contains("faculty")) {
+            if (facultyRelated(url)) {
                 try {
-                    nonHtmlLinksFile.write(text + "," + url + "\n");
+                    nonHtmlLinksFile.write(text + "," + url + "\r\n");
                 } catch (IOException e) {
                     System.out.println("Error writing to nonHtmlLinks.csv!");
                 }
@@ -114,13 +151,13 @@ public class crawler {
             textFile = new FileWriter("Assignment_3\\text.csv");
             nonHtmlLinksFile = new FileWriter("Assignment_3\\nonHtmlLinks.csv");
 
-            String row = "Tag ,Text\n";
+            String row = "Tag ,Text\r\n";
             textFile.write(row);
 
-            row = "Link Text,URL\n";
+            row = "Link Text,URL\r\n";
             linksFile.write(row);
 
-            row = "Link Text,URL\n";
+            row = "Link Text,URL\r\n";
             nonHtmlLinksFile.write(row);
 
         } catch (IOException e) {
@@ -131,11 +168,13 @@ public class crawler {
         try {
             System.out.print("Input URL: ");
             Scanner input = new Scanner(System.in);
-            url = "https://pec.ac.in";//input.nextLine();
+            url = "https://pec.ac.in/";
+//            input.nextLine();
             System.out.print("Enter String: ");
-            urlContains = "pec.ac.in";//input.nextLine();
+            urlContains = "pec.ac.in/";
+//            input.nextLine();
             System.out.print("Enter MAX Depth(BFS): ");
-            maxDepth = 1;
+            maxDepth = 4;
 //        input.nextInt();
 //        input.nextLine();
             input.close();
@@ -148,6 +187,7 @@ public class crawler {
             System.out.println("INVALID URL!");
             return;
         }
+        facultyRelatedWordsList.addAll(Arrays.asList(("faculty professor prof assistant teacher teaching engineer engineering publications qualification books published projects").split(" ")));
         Link temp = new Link();
         temp.url = url;
         temp.text = "---ROOT---";

@@ -11,6 +11,7 @@ import java.util.*;
 
 
 public class crawler {
+
     private static final HashSet<String> visitedLinks = new HashSet<>();
     private static final HashMap<Integer, List<String>> table = new HashMap<>();
     private static final Queue<Link> linkQueue = new LinkedList<>();
@@ -36,17 +37,16 @@ public class crawler {
     }
 
     public static int frequency(String paragraph, String substring) {
-        int count = 0;
-        for (String word :
-                paragraph.split("\\W+")) {
-            if (word.equals(substring)) {
-                count++;
-            }
+        if (paragraph.length() == 0 || substring.length() == 0) {
+            return 0;
         }
-        return count;
+        return paragraph.split(substring).length - 1;
     }
 
     public static boolean facultyRelated(final Document page) {
+        if (page == null) {
+            return false;
+        }
         int frequencyOfFacultyRelatedWords = 0;
         String htmlPageString = page.toString().toLowerCase();
         for (String word :
@@ -58,6 +58,9 @@ public class crawler {
     }
 
     public static boolean facultyRelated(String url) {
+        if (url.length() == 0) {
+            return false;
+        }
         int frequencyOfFacultyRelatedWords = 0;
         url = url.toLowerCase();
         for (String word :
@@ -69,6 +72,9 @@ public class crawler {
     }
 
     public static void extractLinks(final Document page) {
+        if (page == null) {
+            return;
+        }
         Elements links = page.getElementsByTag("a");
         for (Element link : links) {
             String newURL = link.attr("abs:href");
@@ -82,6 +88,9 @@ public class crawler {
     }
 
     public static void extractText(final Document page) {
+        if (page == null) {
+            return;
+        }
         for (String tag :
                 ("p h1 h2 h3 h4 h5 h6 em strong blockquote").split(" ")) {
             Elements tagElementsList = page.getElementsByTag(tag);
@@ -101,6 +110,9 @@ public class crawler {
     }
 
     public static void crawl(String url, String text) {
+        if (url.length() == 0) {
+            return;
+        }
         if (visitedLinks.contains(url)) {
             return;
         }
@@ -190,7 +202,7 @@ public class crawler {
         facultyRelatedWordsList.addAll(Arrays.asList(("faculty professor prof assistant teacher teaching engineer engineering publications qualification books published projects").split(" ")));
         Link temp = new Link();
         temp.url = url;
-        temp.text = "---ROOT---";
+        temp.text = " ---ROOT--- ";
         linkQueue.add(temp);
         linkQueue.add(null);
         while (!linkQueue.isEmpty()) {
@@ -217,7 +229,7 @@ public class crawler {
 
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
-        System.out.println("Time Elapsed: " + timeElapsed / 60.0);
+        System.out.println("Time Elapsed: " + timeElapsed / 60.0 + " minutes");
 
     }
 

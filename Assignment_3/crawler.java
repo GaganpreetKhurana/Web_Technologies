@@ -9,21 +9,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-
+//BFS
 public class crawler {
 
-    private static final HashSet<String> visitedLinks = new HashSet<>();
-    private static final HashMap<Integer, List<String>> table = new HashMap<>();
-    private static final Queue<Link> linkQueue = new LinkedList<>();
-    private static final List<String> facultyRelatedWordsList = new LinkedList<>();
-    private static int maxDepth = 3;
-    private static FileWriter textFile;
-    private static FileWriter linksFile;
-    private static FileWriter nonHtmlLinksFile;
-    private static String urlContains = "";
-    private static int depth = 0;
+    private static final HashSet<String> visitedLinks = new HashSet<>(); //Set of Visited Strings
+    private static final Queue<Link> linkQueue = new LinkedList<>(); //Links Queue for BFS
+    private static final List<String> facultyRelatedWordsList = new LinkedList<>(); //List of faculty related words
+    private static int maxDepth = 3; //MAX DEPTH for traversing
+    private static FileWriter textFile; //Writer for file storing extracted texts
+    private static FileWriter linksFile; //Writer for file storing extracted links
+    private static FileWriter nonHtmlLinksFile; //Writer for file storing extracted links to object files like pdfs
+    private static String urlContains = ""; //String which should be there in each url to prevent crawler from going outside the website
+    private static int depth = 0; //Current Depth
 
     public static boolean isValid(String url) {
+        /*
+            To check validity of url
+            Param:
+            url:String - URL
+            Return:
+            Boolean-Validity
+        */
         /* Try creating a valid URL */
         try {
             new URL(url).toURI();
@@ -37,6 +43,14 @@ public class crawler {
     }
 
     public static int frequency(String paragraph, String substring) {
+        /*
+            To find frequency of a string(substring) in another string(paragraph)
+            param:
+            paragraph:String-String in which frequency to be calculated
+            substring:String-String of which frequency is to be calculated
+            return:
+            frequency:Integer
+         */
         if (paragraph.length() == 0 || substring.length() == 0) {
             return 0;
         }
@@ -44,6 +58,13 @@ public class crawler {
     }
 
     public static boolean facultyRelated(final Document page) {
+        /*
+            Check if the page is related to faculty by checking the frequency of faculty related words
+            param:
+            page:Document-HTML page
+            return
+            boolean-related or not
+         */
         if (page == null) {
             return false;
         }
@@ -58,6 +79,13 @@ public class crawler {
     }
 
     public static boolean facultyRelated(String url) {
+        /*
+            Check if the url is related to faculty by checking the frequency of faculty related words
+            param:
+            url:String-url of page
+            return
+            boolean-related or not
+         */
         if (url.length() == 0) {
             return false;
         }
@@ -72,12 +100,23 @@ public class crawler {
     }
 
     public static void extractLinks(final Document page) {
+        /*
+            To extract the links from "<a>" tags
+            param:
+            page:Document-HTML page
+         */
         if (page == null) {
             return;
         }
         Elements links = page.getElementsByTag("a");
         for (Element link : links) {
-            String newURL = link.attr("abs:href");
+            String newURL = link.attr("abs:href"); //"abs" will return only absolute links by converting relative links to absolute
+            /*
+            Conditions:
+            Url should not be a link to a section of the page
+            It should not have been visited
+            It should contains the "urlContains" string
+             */
             if (!newURL.contains("#") && !visitedLinks.contains(newURL) && newURL.contains(urlContains)) {
                 Link temp = new Link();
                 temp.url = newURL;
@@ -88,6 +127,11 @@ public class crawler {
     }
 
     public static void extractText(final Document page) {
+        /*
+            To extract the text from "<p>","<h1>","<h2>",...,"<h6>","<em>","<strong>" and "<blockquote>" tags
+            param:
+            page:Document-HTML page
+         */
         if (page == null) {
             return;
         }
@@ -110,28 +154,35 @@ public class crawler {
     }
 
     public static void crawl(String url, String text) {
+        /*
+        To crawl a webpage
+        param
+        url:String-URL of page
+        text:String -Text in "<a>" tag in which url was found
+         */
         if (url.length() == 0) {
             return;
         }
         if (visitedLinks.contains(url)) {
             return;
         }
-        System.out.println("Parsing: " + url + " Depth: " + depth);
+        System.out.println("Parsing: " + url);//+ " Depth: " + depth);
         visitedLinks.add(url);
-        if (!table.containsKey(depth)) {
-            List<String> temp = new ArrayList<>();
-            table.put(depth, temp);
-        }
-        table.get(depth).add(url);
         try {
             if (depth <= maxDepth) {
-                Document page = Jsoup.connect(url).get();
-                if (facultyRelated(url) || facultyRelated(page)) {
+                Document page = Jsoup.connect(url).get(); //send get request
+                if (facultyRelated(url) || facultyRelated(page)) { //if page/url is related to faculty
                     extractText(page);
+                    try {
+                        String row = text + "," + url + "\r\n";
+                        linksFile.write(row);
+                    } catch (IOException e) {
+                        System.out.println("Error writing to links.csv!");
+                    }
                 }
                 extractLinks(page);
-            }
-            if (facultyRelated(url)) {
+            } else if (facultyRelated(url)) { //if url is faculty related
+                Jsoup.connect(url).execute(); //send get request to check for nonHTML links
                 try {
                     String row = text + "," + url + "\r\n";
                     linksFile.write(row);
@@ -140,7 +191,7 @@ public class crawler {
                 }
             }
 
-        } catch (UnsupportedMimeTypeException type) {
+        } catch (UnsupportedMimeTypeException type) {//for nonHTML(objects like pdf,jpg etc) links
             if (facultyRelated(url)) {
                 try {
                     nonHtmlLinksFile.write(text + "," + url + "\r\n");
@@ -155,9 +206,11 @@ public class crawler {
     }
 
     public static void main(String[] args) {
+        /*
+        main Function
+         */
 
-        long startTime = System.nanoTime();
-
+        //Create FileWriter Objects and write header rows
         try {
             linksFile = new FileWriter("Assignment_3\\links.csv");
             textFile = new FileWriter("Assignment_3\\text.csv");
@@ -176,40 +229,45 @@ public class crawler {
             System.out.println("Unable To Create File(s)!");
             System.exit(1);
         }
+        //Input
         String url = "";
         try {
             System.out.print("Input URL: ");
             Scanner input = new Scanner(System.in);
-            url = "https://pec.ac.in/";
-//            input.nextLine();
-            System.out.print("Enter String: ");
-            urlContains = "pec.ac.in/";
-//            input.nextLine();
+            url = input.nextLine(); //"https://pec.ac.in/";
+            System.out.print("Enter String which should be in every url: ");
+            urlContains = input.nextLine(); // "pec.ac.in/
             System.out.print("Enter MAX Depth(BFS): ");
-            maxDepth = 4;
-//        input.nextInt();
-//        input.nextLine();
+            maxDepth = input.nextInt(); // 4
+            input.nextLine();
             input.close();
         } catch (Exception e) {
             System.out.println("Invalid Input!");
             System.exit(1);
         }
 
+        long startTime = System.nanoTime(); //start time
+
+        //Check url validity
         if (!isValid(url)) {
             System.out.println("INVALID URL!");
             return;
         }
+
+        //add words to list
         facultyRelatedWordsList.addAll(Arrays.asList(("faculty professor prof assistant teacher teaching engineer engineering publications qualification books published projects").split(" ")));
+
+        //BFS
         Link temp = new Link();
         temp.url = url;
         temp.text = " ---ROOT--- ";
         linkQueue.add(temp);
-        linkQueue.add(null);
+        linkQueue.add(null);//For separating levels
         while (!linkQueue.isEmpty()) {
             temp = linkQueue.remove();
             if (temp == null) {
                 depth++;
-                if (!linkQueue.isEmpty()) {
+                if (!linkQueue.isEmpty()) {//For non leaf level
                     linkQueue.add(null);
                 }
             } else {
@@ -229,12 +287,13 @@ public class crawler {
 
         long endTime = System.nanoTime();
         double timeElapsed = (endTime - startTime) / 1000000000.0;
-        System.out.println("Time Elapsed: " + timeElapsed / 60.0 + " minutes");
+        System.out.println("Time Elapsed: " + timeElapsed / 60.0 + " minutes");//Time in minutes
 
     }
 
+    //Class for URLS
     private static class Link {
-        public String url = "";
-        public String text = "";
+        public String url = ""; //url
+        public String text = ""; //text in "<a>" tag when url is found
     }
 }

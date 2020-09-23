@@ -5,7 +5,6 @@ URL: https://pec.ac.in/
 String: pec.ac.in/
 Depth: 4
 
-Time taken: 85 minutes
 
 INPUT
 URL
@@ -15,9 +14,8 @@ MAX Depth (BFS)
 OUTPUT
 Files
 links.csv-File containing links related to faculty
-text.csv-File containing text(tags: p,h1,h2,h3,h4,h5,h6,em,blockquote,strong) related to faculty
+text.csv-File containing text(tags: p,blockquote) related to faculty
 nonHtmlLinks.csv-File containing links to objects(pdf,jpg, etc) related to faculty
 
 Console:
-Visited Links
 Time Elapsed

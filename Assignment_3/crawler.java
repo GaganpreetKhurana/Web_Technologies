@@ -15,10 +15,10 @@ public class crawler {
     private static final HashSet<String> visitedLinks = new HashSet<>(); //Set of Visited Strings
     private static final Queue<Link> linkQueue = new LinkedList<>(); //Links Queue for BFS
     private static final List<String> facultyRelatedWordsList = new LinkedList<>(); //List of faculty related words
-    private static int maxDepth = 3; //MAX DEPTH for traversing
+    private static int maxDepth = 1; //MAX DEPTH for traversing
     private static FileWriter textFile; //Writer for file storing extracted texts
     private static FileWriter linksFile; //Writer for file storing extracted links
-    private static FileWriter nonHtmlLinksFile; //Writer for file storing extracted links to object files like pdfs
+    private static FileWriter objectFile; //Writer for file storing extracted links to object files like pdfs
     private static String urlContains = ""; //String which should be there in each url to prevent crawler from going outside the website
     private static int depth = 0; //Current Depth
 
@@ -73,12 +73,15 @@ public class crawler {
         for (String word :
                 facultyRelatedWordsList) {
             frequencyOfFacultyRelatedWords += frequency(htmlPageString, word);
+            if (frequencyOfFacultyRelatedWords >= 15) {
+                return true;
+            }
         }
-        return frequencyOfFacultyRelatedWords > 5;
+        return false;
 
     }
 
-    public static boolean facultyRelated(String url) {
+    public static boolean facultyRelated(String str, int freqThreshold) {
         /*
             Check if the url is related to faculty by checking the frequency of faculty related words
             param:
@@ -86,16 +89,19 @@ public class crawler {
             return
             boolean-related or not
          */
-        if (url.length() == 0) {
+        if (str.length() == 0) {
             return false;
         }
-        int frequencyOfFacultyRelatedWords = 0;
-        url = url.toLowerCase();
+        str = str.toLowerCase();
+        int frequencyOfFacultyRelatedWords;
         for (String word :
                 facultyRelatedWordsList) {
-            frequencyOfFacultyRelatedWords += frequency(url, word);
+            frequencyOfFacultyRelatedWords = frequency(str, word);
+            if (frequencyOfFacultyRelatedWords > freqThreshold) {
+                return true;
+            }
         }
-        return frequencyOfFacultyRelatedWords > 0;
+        return false;
 
     }
 
@@ -128,7 +134,7 @@ public class crawler {
 
     public static void extractText(final Document page) {
         /*
-            To extract the text from "<p>","<h1>","<h2>",...,"<h6>","<em>","<strong>" and "<blockquote>" tags
+            To extract the text from "<p>","<blockquote>" tags
             param:
             page:Document-HTML page
          */
@@ -136,10 +142,10 @@ public class crawler {
             return;
         }
         for (String tag :
-                ("p h1 h2 h3 h4 h5 h6 em strong blockquote").split(" ")) {
+                ("p blockquote").split(" ")) {
             Elements tagElementsList = page.getElementsByTag(tag);
             for (Element tagElement : tagElementsList) {
-                if (tagElement.text().length() > 0) {
+                if (facultyRelated(tagElement.text(), 3)) {
                     try {
                         String row = "<" + tag + ">,\"" + tagElement.text() + "\"\r\n";
                         textFile.write(row);
@@ -166,12 +172,12 @@ public class crawler {
         if (visitedLinks.contains(url)) {
             return;
         }
-        System.out.println("Parsing: " + url);//+ " Depth: " + depth);
+//        System.out.println("Parsing: " + url);//+ " Depth: " + depth);
         visitedLinks.add(url);
         try {
             if (depth <= maxDepth) {
                 Document page = Jsoup.connect(url).get(); //send get request
-                if (facultyRelated(url) || facultyRelated(page)) { //if page/url is related to faculty
+                if (facultyRelated(url, 0) || facultyRelated(page)) { //if page/url is related to faculty
                     extractText(page);
                     try {
                         String row = text + "," + url + "\r\n";
@@ -181,7 +187,7 @@ public class crawler {
                     }
                 }
                 extractLinks(page);
-            } else if (facultyRelated(url)) { //if url is faculty related
+            } else if (facultyRelated(url, 0)) { //if url is faculty related
                 Jsoup.connect(url).execute(); //send get request to check for nonHTML links
                 try {
                     String row = text + "," + url + "\r\n";
@@ -191,16 +197,16 @@ public class crawler {
                 }
             }
 
-        } catch (UnsupportedMimeTypeException type) {//for nonHTML(objects like pdf,jpg etc) links
-            if (facultyRelated(url)) {
+        } catch (UnsupportedMimeTypeException type) {//for objects (like pdf,jpg etc) links
+            if (facultyRelated(url, 0)) {
                 try {
-                    nonHtmlLinksFile.write(text + "," + url + "\r\n");
+                    objectFile.write(text + "," + url + "\r\n");
                 } catch (IOException e) {
-                    System.out.println("Error writing to nonHtmlLinks.csv!");
+                    System.out.println("Error writing to object.csv!");
                 }
             }
         } catch (IOException e) {
-            System.out.println("Unable to parse " + url);
+//            System.out.println("Unable to parse " + url);
         }
 
     }
@@ -212,9 +218,15 @@ public class crawler {
 
         //Create FileWriter Objects and write header rows
         try {
-            linksFile = new FileWriter("Assignment_3\\links.csv");
-            textFile = new FileWriter("Assignment_3\\text.csv");
-            nonHtmlLinksFile = new FileWriter("Assignment_3\\nonHtmlLinks.csv");
+            if (!System.getProperty("user.dir").contains("Assignment_3")) {
+                linksFile = new FileWriter("Assignment_3\\links.csv");
+                textFile = new FileWriter("Assignment_3\\text.csv");
+                objectFile = new FileWriter("Assignment_3\\object.csv");
+            } else {
+                linksFile = new FileWriter("links.csv");
+                textFile = new FileWriter("text.csv");
+                objectFile = new FileWriter("object.csv");
+            }
 
             String row = "Tag ,Text\r\n";
             textFile.write(row);
@@ -223,7 +235,7 @@ public class crawler {
             linksFile.write(row);
 
             row = "Link Text,URL\r\n";
-            nonHtmlLinksFile.write(row);
+            objectFile.write(row);
 
         } catch (IOException e) {
             System.out.println("Unable To Create File(s)!");
@@ -255,7 +267,7 @@ public class crawler {
         }
 
         //add words to list
-        facultyRelatedWordsList.addAll(Arrays.asList(("faculty professor prof assistant teacher teaching engineer engineering publications qualification books published projects").split(" ")));
+        facultyRelatedWordsList.addAll(Arrays.asList(("dr faculty professor prof assistant publications qualification books published projects").split(" ")));
 
         //BFS
         Link temp = new Link();
@@ -269,6 +281,7 @@ public class crawler {
                 depth++;
                 if (!linkQueue.isEmpty()) {//For non leaf level
                     linkQueue.add(null);
+                    System.out.println("Level " + (depth - 1) + " Complete");
                 }
             } else {
                 crawl(temp.url, temp.text);
@@ -279,7 +292,7 @@ public class crawler {
 
             textFile.close();
             linksFile.close();
-            nonHtmlLinksFile.close();
+            objectFile.close();
 
         } catch (IOException e) {
             System.out.println("Unable to close files!");

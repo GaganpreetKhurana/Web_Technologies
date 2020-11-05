@@ -1,9 +1,15 @@
-public class A5_q1 extends Thread{
+public class A5_q1 extends Thread {
+
+    public static void main(String[] args) {
+        A5_q1 object = new A5_q1();
+        object.start(); // start thread
+
+    }
 
     public void run() {
-        for (int i=1;i<=100;i++){
+        for (int i = 1; i <= 100; i++) {
             System.out.println(i); // print number
-            if (i%10==0){
+            if (i % 10 == 0) {
                 System.out.println("Ten numbers counted!"); // print string after 10 numbers
             }
             try {
@@ -13,12 +19,6 @@ public class A5_q1 extends Thread{
                 System.out.println("Unable to put thread to sleep!");
             }
         }
-
-    }
-
-    public static void main(String[] args) {
-        A5_q1 object = new A5_q1();
-        object.start(); // start thread
 
     }
 }

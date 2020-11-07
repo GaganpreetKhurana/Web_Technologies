@@ -77,10 +77,14 @@ public class A5_q2 {
         }
 
         private int number_of_divisors(int n) {
-            int divisors = 1;
-            for (int i = 2; i <= n; i++) {
+            int divisors = 0;
+            for (int i = 1; i <= Math.sqrt(n); i++) {
                 if (n % i == 0) {
-                    divisors += 1;
+                    if (n / i == i) {
+                        divisors++;
+                    } else {
+                        divisors += 2;
+                    }
                 }
             }
             return divisors;

@@ -1,19 +1,22 @@
 public class A5_q2 {
     private static int[] thread_output_number; // To store number with max divisors for each thread
     private static int[] thread_output_divisors; // To store max divisors for each thread
-    private static threads[] thread_objects; // To store thread objects
 
     public static void main(String[] args) {
         long startTime = System.nanoTime(); // Start time
 
-        int number_of_threads = 5; // Number of threads
+        final int number_of_threads = 5; // Number of threads
 
         // Initialize arrays
         thread_output_number = new int[number_of_threads];
         thread_output_divisors = new int[number_of_threads];
-        thread_objects = new threads[number_of_threads];
+        // To store thread objects
+        threads[] thread_objects = new threads[number_of_threads];
 
         final int max_integer = 100000; // MAX Value
+
+        System.out.println("Maximum Integer: " + max_integer + "\n"
+                + "Total Number of Threads: " + number_of_threads);
 
         int difference = max_integer / number_of_threads; // Difference between start and end
 

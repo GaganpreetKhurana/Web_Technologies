@@ -1,7 +1,8 @@
 function triangle_pattern() {
     let rows = prompt("Enter Number of rows: ") // Input rows
-    if (rows <= 0) {
+    if (isNaN(rows) || rows <= 0) {
         // Non positive number of rows
+        console.log("Invalid Input!")
         alert("Invalid Input!")
         return
     }
@@ -30,5 +31,7 @@ function triangle_pattern() {
         }
         triangle += "\n";
     }
+    console.log(triangle)
     alert(triangle)
+
 }

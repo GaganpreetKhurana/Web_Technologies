@@ -17,6 +17,7 @@ function validate_parenthesis() {
 
             if (stack.length === 0) {
                 // Stack empty
+                console.log("Invalid")
                 alert("Invalid")
                 return
             }
@@ -25,20 +26,24 @@ function validate_parenthesis() {
                 // Pair matched
                 stack.pop()
             } else {
+                console.log("Invalid")
                 alert("Invalid")
                 return
             }
         } else {
             // Invalid characters
+            console.log("Invalid Input!")
             alert("Invalid Input!")
             return
         }
 
     }
     if (stack.length === 0) {
-        // Valid Parenthesis as Stack is empty
+        // Valid Parenthesis String as Stack is empty
+        console.log("Valid")
         alert("Valid")
     } else {
+        console.log("Invalid")
         alert("Invalid")
     }
 }

@@ -17,6 +17,7 @@ public class q1_3 {
     }
 
     private static void shortestPath(int vertices, int source, int destination, int edges, Edge[] edgeList) {
+        // Initialize
         int[] distance = new int[vertices];
         int[] parent = new int[vertices];
         for (int i = 0; i < vertices; i++) {
@@ -24,6 +25,9 @@ public class q1_3 {
             parent[i] = -1;
         }
         distance[source] = 0;
+        /* Relax all edges |V| - 1 times. A simple shortest
+           path from src to any other vertex can have at-most |V| - 1
+           edges */
         for (int i = 0; i < vertices - 1; i++) {
             for (int j = 0; j < edges; j++) {
                 if (distance[edgeList[j].source] != Integer.MAX_VALUE
@@ -34,6 +38,7 @@ public class q1_3 {
             }
 
         }
+        // Negative Cycle
         for (int j = 0; j < edges; j++) {
             if (distance[edgeList[j].source] != Integer.MAX_VALUE
                     && distance[edgeList[j].source] + edgeList[j].weight < distance[edgeList[j].destination]) {
@@ -95,9 +100,11 @@ public class q1_3 {
         int source = input.nextInt(), destination = input.nextInt();
         input.close();
 
+        // Bellman-Ford
         System.out.println("\nShortest Path:");
         shortestPath(vertices, source - 1, destination - 1, edges, edgeList);
 
+        // DFS
         System.out.println("\nAll Paths: ");
         boolean[][] graph = new boolean[vertices][vertices];
         boolean[] visited = new boolean[vertices];

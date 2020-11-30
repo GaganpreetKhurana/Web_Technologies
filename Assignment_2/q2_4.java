@@ -7,6 +7,7 @@ public class q2_4 {
             sum += i;
             if (sum == i * i) {
                 if (smallest == 0 || i < smallest) {
+                    // smallest == 0 for first state when condition is satisfied
                     smallest = i;
                 }
             }

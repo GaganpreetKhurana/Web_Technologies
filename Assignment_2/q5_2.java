@@ -33,7 +33,7 @@ public class q5_2 {
 
     public static double[] main(String[] args, HashSet<Integer> setA, HashSet<Integer> setB) {
 
-        double[] timeElapsedArray = new double[4];
+        double[] timeElapsedArray = new double[4]; // Elapsed time for HashSet
 
         System.out.println("\nUsing HashSet: ");
 

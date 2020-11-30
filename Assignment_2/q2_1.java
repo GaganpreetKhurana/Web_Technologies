@@ -15,6 +15,8 @@ public class q2_1 {
         if (a.length() == b.length()) {
             return "Equal";
         }
+
+        // Smaller string is a prefix of Longer String
         if (a.length() < b.length()) {
             return "SMALLER";
         }
@@ -25,9 +27,9 @@ public class q2_1 {
         System.out.println("NOTE: If smaller string is a prefix of longer string then prefix is smaller.\n");
         Scanner input = new Scanner(System.in);
         System.out.print("Enter First String: ");
-        String first = input.nextLine();
+        String first = input.nextLine(); // First String
         System.out.print("Enter Second String: ");
-        String second = input.nextLine();
+        String second = input.nextLine(); // Second String
         System.out.println("Output: First string is " + lexCompare(first.toLowerCase(), second.toLowerCase())
                 + " to/than Second string.");
         input.close();

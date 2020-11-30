@@ -31,7 +31,7 @@ public class q5_1 {
 
     public static double[] main(String[] args, boolean[] setA, boolean[] setB) {
 
-        double[] timeElapsedArray = new double[4];
+        double[] timeElapsedArray = new double[4]; // Elapsed time for Array
 
         System.out.println("\nUsing Array: ");
 

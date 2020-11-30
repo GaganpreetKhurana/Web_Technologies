@@ -20,22 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70933ff8-3015-49f5-a495-c4f56e4980db" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Web_Technologies.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_1/q1_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_1/q1_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_1/q1_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_1/q1_2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_1/q1_3.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_1/q1_3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_1/q1_4.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_1/q1_4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_2/q2_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_2/q2_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_2/q2_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_2/q2_2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_2/q2_3.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_2/q2_3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_2/q2_4.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_2/q2_4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_2/q5_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_2/q5_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment_2/q5_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment_2/q5_2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Technologies.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Technologies.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +32,29 @@
   </component>
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="2" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="comments" />
+                    <option name="lastUsedInstant" value="1606714540" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1606714539" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
   </component>
   <component name="ProjectId" id="1ky6Qqi8fsX4Eu55ZkwKAe1pj03" />
   <component name="ProjectViewState">
@@ -59,18 +67,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
-  <component name="RunManager" selected="Application.q2_3">
-    <configuration name="q1_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="q1_1" />
-      <module name="Web_Technologies" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.q2_5">
     <configuration name="q1_2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="q1_2" />
       <module name="Web_Technologies" />
@@ -99,13 +101,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="q2_5" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="q2_5" />
+      <module name="Web_Technologies" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.q2_5" />
         <item itemvalue="Application.q2_3" />
         <item itemvalue="Application.q2_4" />
         <item itemvalue="Application.q1_4" />
         <item itemvalue="Application.q1_2" />
-        <item itemvalue="Application.q1_1" />
       </list>
     </recent_temporary>
   </component>
@@ -118,7 +140,7 @@
       <option name="presentableId" value="Default" />
       <updated>1606660472950</updated>
       <workItem from="1606660480113" duration="11588000" />
-      <workItem from="1606709665329" duration="886000" />
+      <workItem from="1606709665329" duration="3483000" />
     </task>
     <servers />
   </component>
@@ -142,22 +164,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="121" y="0" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1606660507808" />
-    <state width="595" height="204" key="GridCell.Tab.0.bottom" timestamp="1606685771084">
+    <state width="1237" height="160" key="GridCell.Tab.0.bottom" timestamp="1606717554873">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="595" height="204" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1606685771084" />
-    <state width="595" height="204" key="GridCell.Tab.0.center" timestamp="1606685771069">
+    <state width="1237" height="160" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1606717554873" />
+    <state width="1237" height="160" key="GridCell.Tab.0.center" timestamp="1606717554873">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="595" height="204" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1606685771069" />
-    <state width="595" height="204" key="GridCell.Tab.0.left" timestamp="1606685771069">
+    <state width="1237" height="160" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1606717554873" />
+    <state width="1237" height="160" key="GridCell.Tab.0.left" timestamp="1606717554873">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="595" height="204" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1606685771069" />
-    <state width="595" height="204" key="GridCell.Tab.0.right" timestamp="1606685771069">
+    <state width="1237" height="160" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1606717554873" />
+    <state width="1237" height="160" key="GridCell.Tab.0.right" timestamp="1606717554873">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="595" height="204" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1606685771069" />
+    <state width="1237" height="160" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1606717554873" />
     <state width="595" height="204" key="GridCell.Tab.1.bottom" timestamp="1606685771084">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
